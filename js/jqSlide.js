@@ -73,7 +73,7 @@ var jqSlide = {
     nodeString += '<div class="select-slider"><select id="select-slider" name="navigation" onchange="jqSlide.slideSelect(this);">';
     nodeString += '<option disabled="disabled" selected="selected">Menu</option>';
     $.each(headerElements, function(i, value) {
-      nodeString += '<option value="slider-' + (i + 1) + ' ">' + $(headerElements[i]).html() + '</option>';
+      nodeString += '<option value="slider-' + (i + 1) + '">' + $(headerElements[i]).html() + '</option>';
     });
 
     nodeString += '</select></div>';
