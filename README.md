@@ -25,7 +25,9 @@ A small jquery pluging for Slider
 ```
 
 ```js
-  $('#slider').jqSlide();
+  $('#slider').jqSlide({
+    'defaultSlide' : 2
+  });
 ```
 
 Licence MIT

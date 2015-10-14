@@ -3,8 +3,8 @@
   So that we can access as $('element').jqSlide();
 **/
 (function($) {
-  $.fn.jqSlide = function() {
-    jqSlide.init(this);
+  $.fn.jqSlide = function(options) {
+    jqSlide.init(this, options);
   };
 }(jQuery));
 
@@ -29,9 +29,10 @@ var jqSlide = {
     @param 'jq Element'
     Initiates the construction of DOM process
   **/
-  init: function(element) {
+  init: function(element, options) {
     var headerElements = element.children('h1');
     var contentElements = element.children('p');
+    var initialSlide = 1;
 
     //Throws log when the header and content count mismatch
     if (headerElements.length != contentElements.length) {
@@ -48,8 +49,13 @@ var jqSlide = {
     //Constructing the new DOM based on the cached headerElements and contentElements
     this.constructSlider(element, headerElements, contentElements);
 
-    //To set the slide to first initially
-    this.slideMe(1);
+    //To set the slide to default or set slide 1 initially
+    if (options) {
+      var defaultSlide = options.defaultSlide;
+      initialSlide = defaultSlide && !isNaN(parseInt(defaultSlide)) && isFinite(defaultSlide) && (parseInt(defaultSlide) <= this.totalSlides) ? defaultSlide : 1;
+    }
+
+    this.slideMe(initialSlide);
   },
 
   /**
@@ -94,7 +100,7 @@ var jqSlide = {
     @method slideSelect
     @param 'Integer', the index position of the slide to be selected
   **/
-  slideSelect: function(select){
+  slideSelect: function(select) {
     var selectedIndex = parseInt(select.value.split('-')[1]);
     this.initiateSlide(selectedIndex);
   },
@@ -114,7 +120,7 @@ var jqSlide = {
     $('.slider-container').css('width', (totalSlides * 100) + '%')
 
     for (i = 1 ; i <= totalSlides; i++) {
-      var indexPostion = (index - i ) * 100;
+      var indexPostion = (index - i) * 100;
       var slideEle = $('#slider-' + i);
       slideEle.css('width', distributedwidth + '%')
       slideEle.removeClass('active');
@@ -143,7 +149,7 @@ var jqSlide = {
     }
 
     //If the selected tab is the active tab, don't do anything. silently return;
-    if (index === currentActive){
+    if (index === currentActive) {
       return;
     } else {
       this.slideMe(index);
